@@ -92,7 +92,7 @@
 }
 
 .home-header-banner {
-    background: url('../../assets/banner.jpg');
+    background: url('../../assets/backgound.jpg');
     height: 485px;
     background-repeat: no-repeat;
     background-size: cover;
@@ -101,7 +101,6 @@
     flex-direction: column;
 
     .content-up {
-        padding-top: 15px;
         height: 65%;
 
         .title1 {
@@ -150,7 +149,7 @@
         display: flex;
         align-items: flex-end;
         justify-content: center;
-        padding-bottom: 10px;
+        padding-bottom: 30px;
 
         .options {
             text-align: center;
@@ -180,9 +179,10 @@
                     font-size: 17px;
                     font-weight: 500;
                     cursor: pointer;
+                    color: white;
 
                     &:hover {
-                        color: #49bce2;
+                        color: rgb(255, 106, 0);
                     }
                 }
             }

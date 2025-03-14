@@ -5,6 +5,9 @@ import Specialty from './Section/Specialty';
 import HandBook from './Section/HandBook';
 import MedicalFacility from './Section/MedicalFacility';
 import OutstandingDoctor from './Section/OutstandingDoctor';
+import AboutUs from './AboutUs';
+import Footer from './Footer';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './HomePage.scss';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -17,6 +20,8 @@ class HomePage extends Component {
             speed: 500,
             slidesToShow: 4,
             slidesToScroll: 1,
+            prevArrow: <FaChevronLeft className="custom-prev-arrow" />,  // Thay nút "prev"
+            nextArrow: <FaChevronRight className="custom-next-arrow" />  // Thay nút "next"
         };
         return (
             <div>
@@ -25,7 +30,10 @@ class HomePage extends Component {
                 <HandBook settings={settings} />
                 <OutstandingDoctor settings={settings} />
                 <MedicalFacility settings={settings} />
-                <div style={{ height: '300px' }}></div>
+                <AboutUs />
+                <Footer />
+                {/* <div style={{ height: '300px' }}></div> */}
+
             </div>
         )
     }

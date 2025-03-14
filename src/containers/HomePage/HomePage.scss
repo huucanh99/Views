@@ -40,7 +40,81 @@
 
     }
 
+    &.section-footer {
+        text-align: center;
+        padding-top: 10px;
+        background-color: #0071ba;
+        height: 85px;
+        color: white;
+    }
+
+    &.section-about {
+        margin: 0 100px 20px 100px;
+        height: 450px !important;
+        display: flex;
+        gap: 15px;
+
+        .content-left {
+            width: 60%;
+        }
+
+        .content-right {
+            width: 40%;
+
+            p {
+                text-align: justify;
+                font-style: italic;
+                padding: 15px;
+            }
+        }
+    }
+
     .section-body {
+        .slick-initialized {
+
+            .slick-prev,
+            .slick-next {
+                font-size: 30px;
+                /* Kích thước của biểu tượng */
+                color: #007bff;
+                /* Màu sắc của biểu tượng */
+                background-color: rgba(255, 255, 255, 0.8);
+                /* Nền màu sáng, bán trong suốt */
+                border-radius: 50%;
+                /* Hình tròn */
+                padding: 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background-color 0.3s ease;
+                margin-left: -18px;
+                margin-right: -10px;
+            }
+
+            .slick-prev:hover,
+            .slick-next:hover {
+                background-color: rgba(0, 123, 255, 0.7);
+                /* Màu khi hover */
+            }
+
+            .slick-prev,
+            .slick-next {
+                z-index: 1;
+                /* Đảm bảo các nút hiển thị trên cùng */
+            }
+
+            .slick-prev {
+                left: 10px;
+                /* Điều chỉnh vị trí nút "prev" */
+            }
+
+            .slick-next {
+                right: 10px;
+                /* Điều chỉnh vị trí nút "next" */
+            }
+
+        }
 
         .section-customize {
 
@@ -92,6 +166,8 @@
             .title-section {
                 font-size: 22px;
                 font-weight: 600;
+                color: rgb(6, 92, 152);
+                text-transform: uppercase;
             }
 
             .btn-section {
@@ -107,7 +183,7 @@
 
                 &:hover {
                     color: #fff;
-                    background: #f7d800;
+                    background: rgb(255, 106, 0);
                 }
             }
         }

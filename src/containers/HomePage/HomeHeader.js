@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './HomeHeader.scss';
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/logo.png';
 import { FormattedMessage } from 'react-intl'
 import { LANGUAGES } from '../../utils';
 import { changeLanguageApp } from '../../store/actions';
@@ -69,7 +69,7 @@ class HomeHeader extends Component {
                                 <div className='text-child'><FormattedMessage id="banner.child3" /></div>
                             </div>
                             <div className='option-child'>
-                                <div className='icon-child'><i className='far fa-hospital-m'></i></div>
+                                <div className='icon-child'><i className='far fa-hospital'></i></div>
                                 <div className='text-child'><FormattedMessage id="banner.child4" /></div>
                             </div>
                             <div className='option-child'>
