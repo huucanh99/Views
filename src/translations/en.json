@@ -48,6 +48,7 @@
         "position": "Position",
         "role": "Rule",
         "image": "Avata",
-        "save": "Save user"
+        "save": "Save user",
+        "uploadimg": "Upload Image"
     }
 }
