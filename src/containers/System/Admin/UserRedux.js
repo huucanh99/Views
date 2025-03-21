@@ -2,96 +2,134 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { LANGUAGES } from '../../../utils';
-import * as actions from "../../../store/actions"
-import './UserRedux.scss'
+import * as actions from "../../../store/actions";
+import './UserRedux.scss';
 import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css'
-import { isObject } from 'lodash';
+import 'react-image-lightbox/style.css';
+
 class UserRedux extends Component {
     constructor(props) {
         super(props);
         this.state = {
             genderArr: [],
-            selectedGender: 'M',
-            selectedPosition: 'P1',
-            selectedRole: 'R3',
             positionArr: [],
             roleArr: [],
             previewImgURL: '',
-            isOpen: false
+            isOpen: false,
+            email: '',
+            password: '',
+            firstName: '',
+            lastName: '',
+            address: '',
+            phoneNumber: '',
+            gender: '',
+            role: '',
+            position: '',
+            avatar: null
         };
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.genderRedux !== this.props.genderRedux) {
-            this.setState({
-                genderArr: this.props.genderRedux
-            })
-        }
-        if (prevProps.roleRedux !== this.props.roleRedux) {
-            this.setState({
-                roleArr: this.props.roleRedux
-            })
-        }
-        if (prevProps.positionRedux !== this.props.positionRedux) {
-            this.setState({
-                positionArr: this.props.positionRedux
-            })
-        }
-    }
-    async componentDidMount() {
+
+    componentDidMount() {
         this.props.getGenderStart();
         this.props.getPositionStart();
         this.props.getRoleStart();
-
-        // try {
-        //     let res = await getAllCodeService('gender');
-        //     if (res && res.errCode === 0) {
-        //         this.setState({
-        //             genderArr: res.data
-        //         });
-        //     }
-        // } catch (e) {
-        //     console.log(e);
-        // }
     }
-    handleOnchangeImage = (event) => {
-        let data = event.target.files;
-        let file = data[0];
-        if (file) {
-            let ObjectUrl = URL.createObjectURL(file);
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.genderRedux !== this.props.genderRedux) {
+            const arrGenders = this.props.genderRedux;
             this.setState({
-                previewImgURL: ObjectUrl
-            })
+                genderArr: arrGenders,
+                gender: arrGenders.length > 0 ? arrGenders[0].key : ''
+            });
+        }
+
+        if (prevProps.roleRedux !== this.props.roleRedux) {
+            const arrRoles = this.props.roleRedux;
+            this.setState({
+                roleArr: arrRoles,
+                role: arrRoles.length > 0 ? arrRoles[0].key : ''
+            });
+        }
+
+        if (prevProps.positionRedux !== this.props.positionRedux) {
+            const arrPositions = this.props.positionRedux;
+            this.setState({
+                positionArr: arrPositions,
+                position: arrPositions.length > 0 ? arrPositions[0].key : ''
+            });
         }
     }
+
+    handleOnChangeImage = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const objectUrl = URL.createObjectURL(file);
+            this.setState({
+                previewImgURL: objectUrl,
+                avatar: file
+            });
+        }
+    };
+
     openPreviewImage = () => {
-        if (!this.state.previewImgURL) return;
-        this.setState({
-            isOpen: true
-        })
-    }
-    // Xử lý thay đổi lựa chọn giới tính
-    handleGenderChange = (event) => {
-        this.setState({
-            selectedGender: event.target.value
+        if (this.state.previewImgURL) {
+            this.setState({ isOpen: true });
+        }
+    };
+
+    handleSaveUser = () => {
+        if (!this.checkValidateInput()) return;
+
+        this.props.createNewUser({
+            email: this.state.email,
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            address: this.state.address,
+            phoneNumber: this.state.phoneNumber,
+            gender: this.state.gender,
+            roleId: this.state.role,
+            positionId: this.state.position
         });
     };
-    handlePositionChange = (event) => {
-        this.setState({
-            selectedPosition: event.target.value
-        });
+
+    checkValidateInput = () => {
+        const requiredFields = ['email', 'password', 'firstName', 'lastName', 'address', 'phoneNumber'];
+        for (let field of requiredFields) {
+            if (!this.state[field]) {
+                alert(`This input is required: ${field}`);
+                return false;
+            }
+        }
+        return true;
     };
-    handleRoleChange = (event) => {
-        this.setState({
-            selectedRole: event.target.value
-        });
+
+    onChangeInput = (event, id) => {
+        this.setState({ [id]: event.target.value });
     };
 
     render() {
-        const { genderArr, selectedGender } = this.state;
-        const { positionArr, selectedPosition } = this.state;
-        const { roleArr, selectedRole } = this.state;
         const { language } = this.props;
+        const { email, password, firstName, lastName, phoneNumber, address, gender, position, role, previewImgURL } = this.state;
+
+        const genderOptions = this.state.genderArr.map((item, index) => (
+            <option key={index} value={item.key}>
+                {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
+            </option>
+        ));
+
+        const positionOptions = this.state.positionArr.map((item, index) => (
+            <option key={index} value={item.key}>
+                {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
+            </option>
+        ));
+
+        const roleOptions = this.state.roleArr.map((item, index) => (
+            <option key={index} value={item.key}>
+                {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
+            </option>
+        ));
 
         return (
             <div className="user-redux-container">
@@ -102,119 +140,119 @@ class UserRedux extends Component {
                             <div className="col-12">
                                 <FormattedMessage id="manage-user.add" />
                             </div>
+
+                            {/* Email */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage id="manage-user.email" />
                                 </label>
-                                <input className="form-control" type="email" />
+                                <input className="form-control" type="email" value={email} onChange={(event) => this.onChangeInput(event, 'email')} />
                             </div>
+
+                            {/* Password */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage id="manage-user.password" />
                                 </label>
-                                <input className="form-control" type="password" />
+                                <input className="form-control" type="password" value={password} onChange={(event) => this.onChangeInput(event, 'password')} />
                             </div>
+
+                            {/* First Name */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage id="manage-user.first-name" />
                                 </label>
-                                <input className="form-control" type="text" />
+                                <input className="form-control" type="text" value={firstName} onChange={(event) => this.onChangeInput(event, 'firstName')} />
                             </div>
+
+                            {/* Last Name */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage id="manage-user.last-name" />
                                 </label>
-                                <input className="form-control" type="text" />
+                                <input className="form-control" type="text" value={lastName} onChange={(event) => this.onChangeInput(event, 'lastName')} />
                             </div>
+
+                            {/* Phone Number */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage id="manage-user.phone-number" />
                                 </label>
-                                <input className="form-control" type="text" />
+                                <input className="form-control" type="text" value={phoneNumber} onChange={(event) => this.onChangeInput(event, 'phoneNumber')} />
                             </div>
+
+                            {/* Address */}
                             <div className="col-9">
                                 <label>
                                     <FormattedMessage id="manage-user.address" />
                                 </label>
-                                <input className="form-control" type="text" />
+                                <input className="form-control" type="text" value={address} onChange={(event) => this.onChangeInput(event, 'address')} />
                             </div>
+
+                            {/* Gender */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage id="manage-user.gender" />
                                 </label>
                                 <select
-                                    className="form-control"
-                                    value={selectedGender} // Sử dụng giá trị trong state để điều khiển
-                                    onChange={this.handleGenderChange} // Cập nhật state khi người dùng chọn giới tính
+                                    className="form-control" onChange={(event) => this.onChangeInput(event, 'gender')}
                                 >
-                                    {genderArr && genderArr.length > 0 && genderArr.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.key}>
-                                                {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
-                                            </option>
-                                        );
-                                    })}
+                                    {genderOptions}
                                 </select>
                             </div>
+
+                            {/* Position */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage id="manage-user.position" />
                                 </label>
                                 <select
-                                    className="form-control"
-                                    value={selectedPosition} // Sử dụng giá trị trong state để điều khiển
-                                    onChange={this.handlePositionChange} // Cập nhật state khi người dùng chọn giới tính
+                                    className="form-control" onChange={(event) => this.onChangeInput(event, 'position')}
                                 >
-                                    {positionArr && positionArr.length > 0 && positionArr.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.key}>
-                                                {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
-                                            </option>
-                                        );
-                                    })}
+                                    {positionOptions}
                                 </select>
                             </div>
+
+                            {/* Role */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage id="manage-user.role" />
                                 </label>
                                 <select
-                                    className="form-control"
-                                    value={selectedRole} // Sử dụng giá trị trong state để điều khiển
-                                    onChange={this.handleRoleChange} // Cập nhật state khi người dùng chọn giới tính
+                                    className="form-control" onChange={(event) => this.onChangeInput(event, 'role')}
                                 >
-                                    {roleArr && roleArr.length > 0 && roleArr.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.key}>
-                                                {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
-                                            </option>
-                                        );
-                                    })}
+                                    {roleOptions}
                                 </select>
                             </div>
+
+                            {/* Image */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage id="manage-user.image" />
                                 </label>
                                 <div className='preview-img-container'>
-                                    <input id='previewImg' type='file' hidden onChange={(event) => this.handleOnchangeImage(event)} />
-                                    <label className='label-upload' htmlFor='previewImg'> <FormattedMessage id="manage-user.uploadimg" /> <i className='fas fa-upload'></i></label>
-                                    <div className='preview-image' style={{ backgroundImage: `url(${this.state.previewImgURL})` }} onClick={() => this.openPreviewImage()}>
-
-                                    </div>
+                                    <input id='previewImg' type='file' hidden onChange={(event) => this.handleOnChangeImage(event)} />
+                                    <label className='label-upload' htmlFor='previewImg'>
+                                        <FormattedMessage id="manage-user.uploadimg" /> <i className='fas fa-upload'></i>
+                                    </label>
+                                    <div className='preview-image' style={{ backgroundImage: `url(${previewImgURL})` }} onClick={this.openPreviewImage}></div>
                                 </div>
                             </div>
+
+                            {/* Save Button */}
                             <div className="col-12 mt-3 button-save">
-                                <button className="btn btn-primary">
+                                <button className="btn btn-primary" onClick={this.handleSaveUser}>
                                     <FormattedMessage id="manage-user.save" />
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                {this.state.isOpen === true &&
-                    <Lightbox mainSrc={this.state.previewImgURL} onCloseRequest={() => this.setState({ isOpen: false })} />
-                }
+
+                {/* Lightbox for image preview */}
+                {this.state.isOpen && (
+                    <Lightbox mainSrc={previewImgURL} onCloseRequest={() => this.setState({ isOpen: false })} />
+                )}
             </div>
         );
     }
@@ -233,7 +271,8 @@ const mapDispatchToProps = dispatch => {
     return {
         getGenderStart: () => dispatch(actions.fetchGenderStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
-        getRoleStart: () => dispatch(actions.fetchRoleStart())
+        getRoleStart: () => dispatch(actions.fetchRoleStart()),
+        createNewUser: (data) => dispatch(actions.createNewUser(data))
     };
 };
 
