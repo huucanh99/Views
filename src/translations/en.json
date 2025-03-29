@@ -49,6 +49,7 @@
         "role": "Rule",
         "image": "Avata",
         "save": "Save user",
-        "uploadimg": "Upload Image"
+        "uploadimg": "Upload Image",
+        "edit": "Edit user"
     }
 }

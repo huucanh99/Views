@@ -49,6 +49,7 @@
         "role": "Vai trò",
         "image": "Ảnh đại diện",
         "save": "Lưu user",
-        "uploadimg": "Tải ảnh"
+        "uploadimg": "Tải ảnh",
+        "edit": "Lưu thay đổi"
     }
 }
