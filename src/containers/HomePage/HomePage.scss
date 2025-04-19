@@ -71,6 +71,16 @@
 
     .section-body {
         .slick-initialized {
+            .slick-slide {
+                justify-content: center;
+                display: flex !important;
+
+                .outer-bg {
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 10px;
+                }
+            }
 
             .slick-prev,
             .slick-next {
@@ -137,7 +147,11 @@
                 }
 
                 &.section-outstanding-doctor {
-                    background-image: url('../../assets/section.jpg');
+                    // background-image: url('../../assets/section.jpg');
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+
 
                 }
 
@@ -190,11 +204,7 @@
     }
 
     .section-outstanding-doctor {
-        .outer-bg {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
+
 
         .section-customize {
             padding: 5px;
@@ -202,6 +212,8 @@
             .customize-border {
                 border: 1px solid orange;
                 padding: 20px;
+
+
             }
         }
     }

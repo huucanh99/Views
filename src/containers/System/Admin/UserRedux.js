@@ -43,7 +43,7 @@ class UserRedux extends Component {
             const arrGenders = this.props.genderRedux;
             this.setState({
                 genderArr: arrGenders,
-                gender: arrGenders.length > 0 ? arrGenders[0].key : ''
+                gender: arrGenders.length > 0 ? arrGenders[0].keyMap : ''
             });
         }
 
@@ -51,7 +51,7 @@ class UserRedux extends Component {
             const arrRoles = this.props.roleRedux;
             this.setState({
                 roleArr: arrRoles,
-                role: arrRoles.length > 0 ? arrRoles[0].key : ''
+                role: arrRoles.length > 0 ? arrRoles[0].keyMap : ''
             });
         }
 
@@ -59,7 +59,7 @@ class UserRedux extends Component {
             const arrPositions = this.props.positionRedux;
             this.setState({
                 positionArr: arrPositions,
-                position: arrPositions.length > 0 ? arrPositions[0].key : ''
+                position: arrPositions.length > 0 ? arrPositions[0].keyMap : ''
             });
         }
 
@@ -74,9 +74,9 @@ class UserRedux extends Component {
                 lastName: '',
                 address: '',
                 phonenumber: '',
-                gender: arrGenders.length > 0 ? arrGenders[0].key : '',
-                position: arrPositions.length > 0 ? arrPositions[0].key : '',
-                role: arrRoles.length > 0 ? arrRoles[0].key : '',
+                gender: arrGenders.length > 0 ? arrGenders[0].keyMap : '',
+                position: arrPositions.length > 0 ? arrPositions[0].keyMap : '',
+                role: arrRoles.length > 0 ? arrRoles[0].keyMap : '',
                 avatar: '',
                 action: CRUD_ACTIONS.CREATE,
                 previewImgURL: ''
@@ -179,19 +179,19 @@ class UserRedux extends Component {
         const { email, password, firstName, lastName, phonenumber, address, gender, position, role, previewImgURL } = this.state;
 
         const genderOptions = this.state.genderArr.map((item, index) => (
-            <option key={index} value={item.key}>
+            <option key={index} value={item.keyMap}>
                 {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
             </option>
         ));
 
         const positionOptions = this.state.positionArr.map((item, index) => (
-            <option key={index} value={item.key}>
+            <option key={index} value={item.keyMap}>
                 {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
             </option>
         ));
 
         const roleOptions = this.state.roleArr.map((item, index) => (
-            <option key={index} value={item.key}>
+            <option key={index} value={item.keyMap}>
                 {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
             </option>
         ));
