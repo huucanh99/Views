@@ -4,6 +4,7 @@ import '../HomePage.scss';
 import Slider from "react-slick";
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
+import { withRouter } from 'react-router';
 
 class OutstandingDoctor extends Component {
     constructor(props) {
@@ -23,6 +24,13 @@ class OutstandingDoctor extends Component {
         this.props.loadTopDoctors();
     }
 
+    handleViewDetailDoctor = (doctor) => {
+        if(this.props.history){
+            console.log('check infor doctor :', doctor)
+            this.props.history.push(`/detail-doctor/${doctor.id}`)
+        }
+       
+    }
     render() {
         let arrDoctors = this.state.arrDoctors;
         let { language } = this.props;
@@ -46,7 +54,7 @@ class OutstandingDoctor extends Component {
                                     let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
                                     let nameEn = `${item.positionData.valueEn},${item.firstName} ${item.lastName} `;
                                     return (
-                                        <div className='section-customize' key={index}>
+                                        <div className='section-customize' key={index} onClick={() => this.handleViewDetailDoctor(item)}>
                                             <div className='customize-border'>
                                                 <div className='outer-bg'>
                                                     <div className='bg-image section-outstanding-doctor' style={{ backgroundImage: `url(${imageBase64})` }}></div>
@@ -84,4 +92,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor));

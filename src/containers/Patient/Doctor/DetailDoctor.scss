@@ -1,0 +1,41 @@
+.doctor-detail-container {
+  height: 500px;
+  margin: 0 100px;
+  border: 1px solid red;
+
+  .intro-doctor {
+     display: grid;
+  grid-template-columns: 120px 1fr; /* avatar cố định 120px, còn lại tự giãn */
+  column-gap: 20px;
+  align-items: start;
+  border: 1px solid grey;
+  padding: 10px;
+
+    .content-left {
+      width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+    }
+
+    .content-right {
+       display: grid;
+  grid-template-rows: auto 1fr;
+
+      .up {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .down {
+        margin-top: 6px;
+        line-height: 1.5;
+        overflow-wrap: anywhere; // xử lý chuỗi không khoảng trắng
+        // hoặc: word-break: break-word; (tùy bạn)
+      }
+    }
+  }
+}
